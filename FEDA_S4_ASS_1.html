@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<title>Vehicle Form</title>
+		<style type="text/css">
+			*, *::after, *::before { box-sizing: content-box; }
+			body { font-family: arial; }
+			input, select { margin: 5px; padding: 4px 7px; width: 200px; }
+			input [type="button"] { width: auto; }
+			p { color: #8b99a0; }
+			p > span { color: #222222; }
+			#fuelType { display: none; }
+		</style>
+	</head>
+	<body>
+		<div id="formDiv" style="float: left;">
+		<form>
+			<fieldset>
+				<legend>Vehicle Form</legend>
+				<input id="name" type="text" placeholder="Name"/><br/>
+				<select id="vehType" onchange="checkFuelType()">
+					<option>Vehicle Type</option>
+					<option value="Four">Four Wheeler</option>
+					<option value="Two">Two Wheeler</option>
+				</select><br/>
+				<select id="fuelType">
+					<option>Fuel Type</option>
+					<option value="CNG">CNG</option>
+					<option value="Petrol">Petrol</option>
+				</select>
+				<input id="cpk" type="text" placeholder="Cost per kilometer"/><br/>
+				<input id="desc" type="text" placeholder="Description"/><br/>
+				<input type="button" value="Submit" onclick="submitValue()"/>
+			</fieldset>
+		</form>
+		</div>
+		<div id="outputDiv" style="display: none;">
+			<h2 id="vehTitleType"></h2>
+			<p>Name: <span id="vehNameOut"></span></p>
+			<p>Vehicle Type: <span id="vehTypeOut"></span></p>
+			<p id="vehFuelOutBox">Fuel Type: <span id="vehFuelOut"></span></p>
+			<p>Cost per km: <span id="vehCostOut"></span></p>
+			<p>Description: <span id="vehDescOut"></span></p>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var nameBox = document.getElementById('name');
+		var vehBox = document.getElementById('vehType');
+		var fuelBox = document.getElementById('fuelType');
+		var cpkBox = document.getElementById('cpk');
+		var descBox = document.getElementById('desc');
+		
+		function vehicle(name, cpk, desc, vehType, fuelType) {
+			this.name = name;
+			this.cpk = cpk;
+			this.desc = desc;
+			this.vehType = vehType;
+			this.fuelType = fuelType;
+		}
+		
+		var newVehicle = new vehicle('', '', '', '', '');
+		
+		function checkFuelType() {
+			if(vehBox.options[vehBox.selectedIndex].value == 'Four') {
+				fuelBox.style.display = 'block';
+			}
+			else {
+				fuelBox.style.display = 'none';
+			}
+		}
+		
+		function submitValue() {
+			newVehicle.name = nameBox.value;
+			newVehicle.cpk = cpkBox.value;
+			newVehicle.desc = descBox.value;
+			newVehicle.vehType = vehBox.value;
+			newVehicle.fuelType = fuelBox.value;
+			displayData();
+		}
+		
+		function displayData() {
+			document.getElementById('vehTitleType').innerHTML = vehBox.options[vehBox.selectedIndex].value + ' Wheeler Details';
+			if(vehBox.options[vehBox.selectedIndex].value == 'Four') {
+				document.getElementById('vehFuelOutBox').style.display = 'block';
+				document.getElementById('vehFuelOut').innerHTML = newVehicle.fuelType;
+			}
+			else {
+				document.getElementById('vehFuelOutBox').style.display = 'none';
+			}
+			document.getElementById('vehNameOut').innerHTML = newVehicle.name;
+			document.getElementById('vehTypeOut').innerHTML = newVehicle.vehType + ' Wheeler';
+			document.getElementById('vehCostOut').innerHTML = newVehicle.cpk;
+			document.getElementById('vehDescOut').innerHTML = newVehicle.desc;
+			document.getElementById('formDiv').style.display = 'none';
+			document.getElementById('outputDiv').style.display = 'block';
+		}
+	</script>
+</html>
